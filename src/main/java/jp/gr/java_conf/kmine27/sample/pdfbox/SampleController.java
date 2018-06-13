@@ -11,6 +11,7 @@ import org.apache.pdfbox.pdmodel.PDPageContentStream;
 import org.apache.pdfbox.pdmodel.PDPageContentStream.AppendMode;
 import org.apache.pdfbox.pdmodel.encryption.InvalidPasswordException;
 import org.apache.pdfbox.pdmodel.font.PDFont;
+import org.apache.pdfbox.pdmodel.font.PDType0Font;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
 import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,11 +52,14 @@ public class SampleController {
 		try (
 				PDPageContentStream contentStream = new PDPageContentStream(doc, page, AppendMode.APPEND, false);
 				) {
-			PDFont font = PDType1Font.HELVETICA_BOLD;
-					contentStream.beginText();
+//			PDFont font = PDType1Font.HELVETICA_BOLD;
+
+			PDFont font = PDType0Font.load(doc, context.getResource("classpath:font/ipagp.ttf").getFile());
+
+			contentStream.beginText();
 			contentStream.setFont(font, 12);
 			contentStream.newLineAtOffset(100F, 100F);
-			contentStream.showText("Hello World");
+			contentStream.showText("hello world ! こんにちは！髙橋さん");
 			contentStream.endText();
 			
 			PDImageXObject image = PDImageXObject
